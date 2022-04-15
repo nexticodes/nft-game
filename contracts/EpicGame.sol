@@ -41,8 +41,8 @@ contract EpicGame {
                 img: characterImageURIs[i],
                 class: characterClass[i],
                 hp: characterHp[i],
-                attackDmg: characterDmg[i],
                 maxHp: characterHp[i],
+                attackDmg: characterDmg[i],
                 exp: 0,
                 maxExp: 100,
                 lvl: 1
