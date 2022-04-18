@@ -17,7 +17,7 @@ contract EpicGame is ERC721 {
     struct CharacterAttributes {
         uint characterIndex;
         string name;
-        string img;
+        string image;
         string charClass;
         uint hp;
         uint maxHp;
@@ -48,17 +48,17 @@ contract EpicGame is ERC721 {
         string[] memory characterNames,
         string[] memory characterImageURIs,
         string[] memory characterClass,
-        uint256[] memory characterHp,
-        uint256[] memory characterDmg,
-        uint256[] memory characterDodge
-    ) ERC721("RANDOM HUNTER", "HNTR") {
+        uint[] memory characterHp,
+        uint[] memory characterDmg,
+        uint[] memory characterDodge
+    ) ERC721("SimpleRPG", "SMPL") {
         // Loop through characterNames, and save values in contract.
         for (uint256 i = 0; i < characterNames.length; i += 1) {
             defaultCharacters.push(
                 CharacterAttributes({
                     characterIndex: i,
                     name: characterNames[i],
-                    img: characterImageURIs[i],
+                    image: characterImageURIs[i],
                     charClass: characterClass[i],
                     hp: characterHp[i],
                     maxHp: characterHp[i],
@@ -72,17 +72,17 @@ contract EpicGame is ERC721 {
 
             CharacterAttributes memory char = defaultCharacters[i];
             console.log(
-                "Done initializing %s w/ HP %s, img %s",
+                "Done initializing %s w/ HP %s, image %s",
                 char.name,
                 char.hp,
-                char.img
+                char.image
             );
         }
 
         _tokenIds.increment();
     }
 
-    function mintCharacterNFT(uint256 _characterIndex) external {
+    function mintCharacterNFT(uint _characterIndex) external {
         // get current token id. should be 1 because we increment in constructor.
         uint256 newItemId = _tokenIds.current();
 
@@ -93,7 +93,7 @@ contract EpicGame is ERC721 {
         nftHolderAttributes[newItemId] = CharacterAttributes({
             characterIndex: _characterIndex,
             name: defaultCharacters[_characterIndex].name,
-            img: defaultCharacters[_characterIndex].img,
+            image: defaultCharacters[_characterIndex].image,
             charClass: defaultCharacters[_characterIndex].charClass,
             hp: defaultCharacters[_characterIndex].hp,
             maxHp: defaultCharacters[_characterIndex].maxHp,
@@ -122,9 +122,7 @@ contract EpicGame is ERC721 {
         override
         returns (string memory)
     {
-        CharacterAttributes memory charAttributes = nftHolderAttributes[
-            _tokenId
-        ];
+        CharacterAttributes memory charAttributes = nftHolderAttributes[_tokenId];
 
         string memory strHp = Strings.toString(charAttributes.hp);
         string memory strMaxHp = Strings.toString(charAttributes.maxHp);
@@ -142,10 +140,10 @@ contract EpicGame is ERC721 {
             abi.encodePacked(
                 '{"name":"',
                 charAttributes.name,
-                " -- NFT#: ",
+                ' #',
                 Strings.toString(_tokenId),
-                '", "description": "This is an NFT that lets people play in Random Hunters!", "image": "',
-                charAttributes.img,
+                '", "description": "This is an NFT that lets people play in Simple RPG!", "image": "',
+                charAttributes.image,
                 '", "class": "',
                 charAttributes.charClass,
                 '", "attributes": [ { "trait_type": "Health Points", "value": ',
