@@ -217,8 +217,18 @@ contract EpicGame is ERC721 {
 
         if (enemy.hp < player.attackDmg) {
             enemy.hp = 0;
+            player.exp += player.lvl * 50;
         } else {
             enemy.hp = enemy.hp - player.attackDmg;
+            player.exp += player.lvl * 25;
+        }
+        // level up
+        if (player.exp >= player.maxExp){
+            player.lvl ++;
+            player.exp = player.exp % player.maxExp;
+            player.maxExp = player.maxExp * player.lvl;
+            player.hp = player.maxHp;
+            console.log("Player leveled up! Replenishing HP. Player HP is now %s", player.hp);
         }
 
         if (player.hp < enemy.attackDmg) {
