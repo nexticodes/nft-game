@@ -39,6 +39,18 @@ contract EpicGame is ERC721 {
     // Create mapping from nft's tokenId => that NFTs attributes.
     mapping(uint256 => CharacterAttributes) public nftHolderAttributes;
 
+
+    struct Enemy {
+        string name;
+        string image;
+        uint hp;
+        uint maxHp;
+        uint attackDmg;
+        uint dodgeChance;
+    }
+
+    Enemy public enemy;
+
     // A mapping from an address => NFTs tokenId. Gives ez way to store owner of NFT and reference later.
     mapping(address => uint256) public nftHolders;
 
@@ -50,9 +62,25 @@ contract EpicGame is ERC721 {
         string[] memory characterClass,
         uint[] memory characterHp,
         uint[] memory characterDmg,
-        uint[] memory characterDodge
+        uint[] memory characterDodge,
+        string[] memory enemyInfo,
+        uint[] memory enemyHp,
+        uint enemyDmg,
+        uint enemyDodgeChance
     ) ERC721("SimpleRPG", "SMPL") {
         // Loop through characterNames, and save values in contract.
+
+        enemy = Enemy({
+            name: enemyInfo[0],
+            image: enemyInfo[1],
+            hp: enemyHp[0],
+            maxHp: enemyHp[1],
+            attackDmg: enemyDmg,
+            dodgeChance: enemyDodgeChance
+        });
+
+        console.log('Done initializing Enemy %s w/ HP %s, img %s', enemy.name, enemy.hp, enemy.image);
+
         for (uint256 i = 0; i < characterNames.length; i += 1) {
             defaultCharacters.push(
                 CharacterAttributes({
@@ -168,4 +196,39 @@ contract EpicGame is ERC721 {
 
         return output;
     }
+
+    function attackBoss() public {
+        // Get state of character NFT.
+        uint256 playerTokenId = nftHolders[msg.sender];
+        CharacterAttributes storage player = nftHolderAttributes[playerTokenId];
+        console.log("\nPlayer w/ character %s about to attack. Has %s HP and %s AD", player.name, player.hp, player.attackDmg);
+        console.log("Boss %s haas %s HP and %s AD", enemy.name, enemy.hp, enemy.attackDmg);
+
+        // check player hp > 0.
+        require(
+            player.hp > 0,
+            "Error: Character is DEAD."
+        );
+        // check enemy hp > 0.
+        require(
+            enemy.hp > 0,
+            "Error: Enemy is DEAD."
+        );
+
+        if (enemy.hp < player.attackDmg) {
+            enemy.hp = 0;
+        } else {
+            enemy.hp = enemy.hp - player.attackDmg;
+        }
+
+        if (player.hp < enemy.attackDmg) {
+            player.hp = 0;
+        } else {
+            player.hp = player.hp - enemy.attackDmg;
+        }
+
+        console.log("Player attacked enemy. Enemy HP is now: %s", enemy.hp);
+        console.log("Enemy attacked Player. Player HP is now: %s", player.hp);
+    }
+
 }

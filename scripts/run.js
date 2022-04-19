@@ -6,7 +6,11 @@ const main = async () => {
         ['Warrior', 'Archer', 'Berserker'],
         [250, 200, 300],
         [75, 100, 50],
-        [4, 5, 2]
+        [4, 5, 2],
+        ['Kardel', 'https://i.imgur.com/zkQxuNd.png'],
+        [2000, 2000],
+        60,
+        20
     );
     await gameContract.deployed();
     console.log("Deployed to:", gameContract.address);
@@ -17,14 +21,25 @@ const main = async () => {
     await txn.wait();
     console.log('Minted NFT #1');
 
-    console.log('Awesome, all NFTs minted!')
+    txn = await gameContract.attackBoss();
+    await txn.wait();
+
+    txn = await gameContract.attackBoss();
+    await txn.wait();
+
+    txn = await gameContract.attackBoss();
+    await txn.wait();
+
+    txn = await gameContract.attackBoss();
+    await txn.wait();
+    // console.log('Awesome, all NFTs minted!')
 
     // get value of nft's uri.
     // tokenURI is a function on every NFT that returns the actual data attached to the NFT.
     // saying contract, get me data inside the NFT with tokenId 1.
     // which is the first minted.
-    let returnedTokenUri = await gameContract.tokenURI(2);
-    console.log("Token URI:", returnedTokenUri);
+    // let returnedTokenUri = await gameContract.tokenURI(2);
+    // console.log("Token URI:", returnedTokenUri);
 
 }
 
