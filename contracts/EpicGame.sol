@@ -254,4 +254,12 @@ contract EpicGame is ERC721 {
             return emptyStruct;
         }
     }
+
+    function getAllDefaultCharacters() public view returns (CharacterAttributes[] memory) {
+        return defaultCharacters;
+    }
+
+    function getEnemy() public view returns (Enemy memory) {
+        return enemy;
+    }
 }
