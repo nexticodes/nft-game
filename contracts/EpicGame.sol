@@ -241,4 +241,17 @@ contract EpicGame is ERC721 {
         console.log("Enemy attacked Player. Player HP is now: %s", player.hp);
     }
 
+    function checkIfUserHasNFT() public view returns (CharacterAttributes memory) {
+        // get token id of user's nft
+        uint userNftId = nftHolders[msg.sender];
+        // if user has a token id in the map, return character.
+        if (userNftId > 0) {
+            return nftHolderAttributes[userNftId];
+        }
+        else {
+        // else return empty
+            CharacterAttributes memory emptyStruct;
+            return emptyStruct;
+        }
+    }
 }
