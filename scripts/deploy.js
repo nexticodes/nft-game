@@ -12,26 +12,9 @@ const main = async () => {
         60,
         20
     );
+    
     await gameContract.deployed();
     console.log("Deployed to:", gameContract.address);
-
-    let txn;
-    // mint character at index 0 from array
-    txn = await gameContract.mintCharacterNFT(0);
-    await txn.wait();
-    console.log('Minted NFT #1');
-
-    txn = await gameContract.attackBoss();
-    await txn.wait();
-
-    txn = await gameContract.attackBoss();
-    await txn.wait();
-
-    txn = await gameContract.attackBoss();
-    await txn.wait();
-
-    txn = await gameContract.attackBoss();
-    await txn.wait();
     // console.log('Awesome, all NFTs minted!')
 
     // get value of nft's uri.

@@ -54,6 +54,9 @@ contract EpicGame is ERC721 {
     // A mapping from an address => NFTs tokenId. Gives ez way to store owner of NFT and reference later.
     mapping(address => uint256) public nftHolders;
 
+    event NFTMinted(address sender, uint256 tokenId, uint256 characterIndex);
+    event AttackComplete(uint newEnemyHp, uint newPlayerHp);
+
     // Data passed in to the contract when it's first created initializing the characters.
     // Actually pass values from run.js
     constructor(
@@ -142,6 +145,7 @@ contract EpicGame is ERC721 {
         nftHolders[msg.sender] = newItemId;
 
         _tokenIds.increment();
+        emit NFTMinted(msg.sender, newItemId, _characterIndex);
     }
 
     function tokenURI(uint256 _tokenId)
@@ -231,6 +235,7 @@ contract EpicGame is ERC721 {
             console.log("Player leveled up! Replenishing HP. Player HP is now %s", player.hp);
         }
 
+        
         if (player.hp < enemy.attackDmg) {
             player.hp = 0;
         } else {
@@ -239,6 +244,7 @@ contract EpicGame is ERC721 {
 
         console.log("Player attacked enemy. Enemy HP is now: %s", enemy.hp);
         console.log("Enemy attacked Player. Player HP is now: %s", player.hp);
+        emit AttackComplete(enemy.hp, player.hp);
     }
 
     function checkIfUserHasNFT() public view returns (CharacterAttributes memory) {
