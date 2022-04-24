@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import SelectCharacter from "./components/SelectCharacter";
 
 const App = () => {
     const [currentAccount, setCurrentAccount] = useState(null);
+    const [characterNFT, setCharacterNFT] = useState(null);
 
     const isWalletConnected = async () => {
         try {
@@ -29,6 +31,29 @@ const App = () => {
             }
         } catch (e) {
             console.log(e);
+        }
+    };
+
+    const renderContent = () => {
+        if (!currentAccount) {
+            return (
+                <div className="connect-wallet-container">
+                              <h1 className="header gradient-text">SimpleRPG</h1>
+            <p>A Simple RPG that has no end goal :)</p>
+                    <img
+                        src="https://64.media.tumblr.com/tumblr_mbia5vdmRd1r1mkubo1_500.gifv"
+                        alt="Monty Python Gif"
+                    />
+                    <button
+                        className="cta-button connect-wallet-button"
+                        onClick={connectWalletAction}
+                    >
+                        Connect Wallet To Get Started
+                    </button>
+                </div>
+            );
+        } else if (currentAccount && !characterNFT) {
+          return <SelectCharacter setCharacterNFT={setCharacterNFT} />
         }
     };
 
@@ -57,19 +82,8 @@ const App = () => {
     return (
         <div className="App">
             <Header />
-            <div className="connect-wallet-container">
-                <img
-                    src="https://64.media.tumblr.com/tumblr_mbia5vdmRd1r1mkubo1_500.gifv"
-                    alt="Monty Python Gif"
-                />
-                <button
-                    className="cta-button connect-wallet-button"
-                    onClick={connectWalletAction}
-                >
-                    Connect Wallet To Get Started
-                </button>
-            </div>
-            <Footer/>
+            {renderContent()}
+            <Footer />
         </div>
     );
 };
