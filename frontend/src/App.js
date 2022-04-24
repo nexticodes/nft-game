@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
+import {ethers} from "ethers";
+
 import "./App.css";
+import { CONTRACT_ADDRESS, transformCharacterData } from "./constants";
+import epicGame from "./utils/EpicGame.json";
+
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import SelectCharacter from "./components/SelectCharacter";
@@ -38,8 +43,8 @@ const App = () => {
         if (!currentAccount) {
             return (
                 <div className="connect-wallet-container">
-                              <h1 className="header gradient-text">SimpleRPG</h1>
-            <p>A Simple RPG that has no end goal :)</p>
+                    <h1 className="header gradient-text">SimpleRPG</h1>
+                    <p>A Simple RPG that has no end goal :)</p>
                     <img
                         src="https://64.media.tumblr.com/tumblr_mbia5vdmRd1r1mkubo1_500.gifv"
                         alt="Monty Python Gif"
@@ -53,7 +58,7 @@ const App = () => {
                 </div>
             );
         } else if (currentAccount && !characterNFT) {
-          return <SelectCharacter setCharacterNFT={setCharacterNFT} />
+            return <SelectCharacter setCharacterNFT={setCharacterNFT} />;
         }
     };
 
@@ -77,7 +82,40 @@ const App = () => {
 
     useEffect(() => {
         isWalletConnected();
-    }, []);
+        (async () => {
+          try { 
+            if (window.ethereum.networkVersion !== '4') {
+              alert("Please connect to Rinkeby!")
+            }
+          } catch(error) {
+            console.log(error)
+          }
+        })();
+        const fetchNFTMeta = async () => {
+          console.log('Checking for Character NFT on address:', currentAccount);
+          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          const signer = provider.getSigner();
+          const gameContract = new ethers.Contract(
+            CONTRACT_ADDRESS,
+            epicGame.abi,
+            signer
+          )
+
+          const txn = await gameContract.checkIfUserHasNFT();
+          if (txn.name) {
+            console.log('User has Character!');
+            setCharacterNFT(transformCharacterData(txn));
+          } else {
+            console.log('No character NFT found');
+          }
+        }
+
+        if (currentAccount) {
+          console.log('CurrentAccount:', currentAccount);
+          fetchNFTMeta();
+        }
+
+    }, [currentAccount]);
 
     return (
         <div className="App">
