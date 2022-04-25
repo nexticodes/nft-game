@@ -1,0 +1,22 @@
+.select-character-container {
+    margin-top: 10vh;
+}
+
+.character-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid red;
+    padding: 5px;
+    margin: 0 5px;
+    background-color: gray;
+    border-radius: 5px;
+}
+
+.character-item img {
+    height: 160px;
+}
+
+.characters-container {
+    display: flex;
+}

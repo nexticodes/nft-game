@@ -1,12 +1,17 @@
-const CONTRACT_ADDRESS = '0xdc5d9e71cf969d5fa1c51c59de6cdb0d9648ee13';
+const CONTRACT_ADDRESS = '0xeF154AF3Ad96bf1785042b2C3287269Ded6D1Cfc';
 
 const transformCharacterData = (characterData) => {
     return {
       name: characterData.name,
-      imageURI: characterData.imageURI,
+      image: characterData.image,
+      charClass: characterData.charClass,
       hp: characterData.hp.toNumber(),
       maxHp: characterData.maxHp.toNumber(),
-      attackDamage: characterData.attackDamage.toNumber(),
+      attackDmg: characterData.attackDmg.toNumber(),
+      exp: characterData.exp.toNumber(),
+      maxExp: characterData.maxExp.toNumber(),
+      lvl: characterData.lvl.toNumber(),
+      dodgeChance: characterData.dodgeChance.toNumber()
     };
   };
 
