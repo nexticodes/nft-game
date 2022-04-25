@@ -1,28 +1,11 @@
 import { useState, useEffect } from "react";
 import "./SelectCharacter.css";
-import { ethers } from "ethers";
-import { CONTRACT_ADDRESS, transformCharacterData } from "../../constants";
-import epicGame from "../../utils/EpicGame.json";
+import { transformCharacterData } from "../../constants";
+import useGameContract from "../../hooks/useGameContract";
 
 const SelectCharacter = ({ setCharacterNFT }) => {
+    const gameContract = useGameContract();
     const [characters, setCharacters] = useState([]);
-    const [gameContract, setGameContract] = useState(null);
-
-    useEffect(() => {
-        const { ethereum } = window;
-        if (ethereum) {
-            const provider = new ethers.providers.Web3Provider(ethereum);
-            const signer = provider.getSigner();
-            const contract = new ethers.Contract(
-                CONTRACT_ADDRESS,
-                epicGame.abi,
-                signer
-            );
-            setGameContract(contract);
-        } else {
-            console.log("Ethereum object not found!");
-        }
-    }, []);
 
     useEffect(() => {
         const getCharacters = async () => {
