@@ -1,0 +1,23 @@
+.arena-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.game-container {
+    display: flex;
+    align-items: center;
+    width: 100vw;
+    margin: 0 auto;
+    justify-content: space-evenly;
+    height: 50vh;
+}
+
+.hero-container img, .enemy-container img {
+    height: 125px;
+}
+
+.enemy-container img {
+    transform: scaleX(-1);
+}
+
+.enemy-container progress::-webkit-progress-value {background-color: red !important;}

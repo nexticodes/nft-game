@@ -61,7 +61,7 @@ const SelectCharacter = ({ setCharacterNFT }) => {
                 gameContract.off('NFTMinted', onCharacterMint);
             }
         }
-    }, [gameContract]);
+    }, [gameContract, setCharacterNFT]);
 
     const mintCharacterNFTAction = async (characterId) => {
         try {
