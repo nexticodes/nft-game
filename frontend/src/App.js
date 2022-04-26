@@ -124,7 +124,7 @@ const App = () => {
 
     return (
         <div className="App">
-            <Header />
+            <Header currentAccount={currentAccount} />
             {renderContent()}
             <Footer />
         </div>

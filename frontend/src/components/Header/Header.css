@@ -1,0 +1,39 @@
+.header-container {
+    width: 100%;
+    height: 60px;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.account-logo {
+    border-radius: 50%;
+    height: 30px;
+    margin-left: 15px;
+}
+
+.account-logo:hover {
+    animation: blowUp 1s both;
+    cursor: pointer;
+}
+
+.disconnect {
+    margin-right: 15px;
+}
+
+.active {
+    transform: scale(1.1);
+    box-shadow: 0px 0px 10px white;
+}
+
+@keyframes blowUp {
+    from {
+        transform: scale(1.0);
+        box-shadow: 0px 0px 1px white;
+    }
+    to {
+        transform: scale(1.1);
+        box-shadow: 0px 0px 10px white;
+    }
+}
