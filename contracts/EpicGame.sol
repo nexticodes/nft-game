@@ -169,30 +169,34 @@ contract EpicGame is ERC721 {
         );
 
         string memory json = Base64.encode(
-            abi.encodePacked(
-                '{"name":"',
-                charAttributes.name,
-                ' #',
-                Strings.toString(_tokenId),
-                '", "description": "This is an NFT that lets people play in Simple RPG!", "image": "',
-                charAttributes.image,
-                '", "class": "',
-                charAttributes.charClass,
-                '", "attributes": [ { "trait_type": "Health Points", "value": ',
-                strHp,
-                ', "max_value": ',
-                strMaxHp,
-                ' }, { "trait_type": "Experience Points", "value": ', 
-                strExp,
-                ', "max_value": ',
-                strMaxExp,
-                ' }, { "trait_type": "Attack Damage", "value": ',
-                strAttackDamage,
-                ' }, { "trait_type": "Dodge Chance", "value": ',
-                strDodgeChance,
-                ' }, { "trait_type": "Level", "value": ',
-                strLvl,
-                " } ]}"
+            bytes(
+                string(
+                    abi.encodePacked(
+                        '{"name":"',
+                        charAttributes.name,
+                        ' #',
+                        Strings.toString(_tokenId),
+                        '", "description": "This is an NFT that lets people play in Simple RPG!", "image": "ipfs://',
+                        charAttributes.image,
+                        '", "class": "',
+                        charAttributes.charClass,
+                        '", "attributes": [ { "trait_type": "Health Points", "value": ',
+                        strHp,
+                        ', "max_value": ',
+                        strMaxHp,
+                        ' }, { "trait_type": "Experience Points", "value": ', 
+                        strExp,
+                        ', "max_value": ',
+                        strMaxExp,
+                        ' }, { "trait_type": "Attack Damage", "value": ',
+                        strAttackDamage,
+                        ' }, { "trait_type": "Dodge Chance", "value": ',
+                        strDodgeChance,
+                        ' }, { "trait_type": "Level", "value": ',
+                        strLvl,
+                        " } ]}"
+                    )
+                )
             )
         );
 
@@ -201,7 +205,7 @@ contract EpicGame is ERC721 {
         return output;
     }
 
-    function attackBoss() public {
+    function attackEnemy() public {
         // Get state of character NFT.
         uint256 playerTokenId = nftHolders[msg.sender];
         CharacterAttributes storage player = nftHolderAttributes[playerTokenId];
