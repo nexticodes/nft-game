@@ -45,7 +45,7 @@ const Arena = ({ characterNFT, setCharacterNFT }) => {
             if (gameContract) {
                 setIsAttacking("attacking");
                 console.log("Attacking");
-                const attackTxn = await gameContract.attackBoss();
+                const attackTxn = await gameContract.attackEnemy();
                 await attackTxn.wait();
                 console.log("attackTxn: ", attackTxn);
                 setIsAttacking("hit");

@@ -87,11 +87,6 @@
     transform: scaleX(-1);
 }
 
-
-.giphy-embed {
-    
-}
-
 .fight-container {
     display: flex;
     flex-direction: column;
